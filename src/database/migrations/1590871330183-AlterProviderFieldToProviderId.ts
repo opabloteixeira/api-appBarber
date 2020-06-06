@@ -11,6 +11,7 @@ export class AlterProviderFieldToProviderId1590871330183 implements MigrationInt
                 name: 'provider_id',
                 type: 'uuid',
                 isNullable: true,
+
             }),
         );
 
@@ -22,7 +23,7 @@ export class AlterProviderFieldToProviderId1590871330183 implements MigrationInt
                 referencedColumnNames: ['id'],
                 referencedTableName: 'users',
                 onDelete: 'SET NULL',
-                onUpdate: 'CASCADE',
+                onUpdate: 'CASCADE'
             }),
         );
     }
