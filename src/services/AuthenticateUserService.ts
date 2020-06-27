@@ -3,6 +3,8 @@ import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 
 import User from '../models/User';
+import authConfig from '../config/auth';
+import AppError from '../errors/AppError';
 
 interface Request {
   email: string,
@@ -19,21 +21,23 @@ class AuthenticateUserService{
   public async execute({ email, password}: Request): Promise<Response> {
     const usersRepository = getRepository(User);
 
-    const user = await usersRepository.findOne({ where: { email: email } })
+    const user = await usersRepository.findOne({ where: { email } })
 
     if(!user){
-      throw new Error('Incorrect email/password combination.');
+      throw new AppError('Incorrect email/password combination.', 401);
     }
 
     const passwordMatched = await compare(password, user.password);
 
     if(!passwordMatched){
-      throw new Error('Incorrect email/password combination.');
+      throw new AppError('Incorrect email/password combination.', 401);
     }
 
-    const token = sign({}, "c79fd757abcd16c8f6ae0d3b9dc54a01", {
+    const { secret, expiresIn } = authConfig.jwt;
+
+    const token = sign({}, secret, {
       subject: user.id,
-      expiresIn: '1d',
+      expiresIn,
     });
 
     return {

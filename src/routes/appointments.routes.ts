@@ -1,15 +1,16 @@
 import { Router } from 'express';
 import { getCustomRepository } from 'typeorm';
 import { parseISO } from 'date-fns';
+
 import AppointmentRepository from '../repositories/AppointmentsRepository';
 import CreateAppointmentService from '../services/CreateAppointmentService';
-
+import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 // DTO - Data Transfer Object
 // Rota, Receber requisição, chamar outro arquivo, devolver uma resposta
 // SoC
 
 const appointmentsRouter = Router();
-
+appointmentsRouter.use(ensureAuthenticated);
 
 appointmentsRouter.get('/', async (request, response) => {
   const appointmentRepository = getCustomRepository(AppointmentRepository);
@@ -21,7 +22,7 @@ appointmentsRouter.get('/', async (request, response) => {
 
 
 appointmentsRouter.post('/', async (request, response) => {
-  try {
+
     const { provider_id, date } = request.body;
 
     const parseDate = parseISO(date);
@@ -32,9 +33,7 @@ appointmentsRouter.post('/', async (request, response) => {
 
     return response.json(appointment);
 
-  } catch (err) {
-    return response.status(400).json({ error: err.message})
-  }
+ 
 
 });
 
