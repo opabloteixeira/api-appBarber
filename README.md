@@ -41,7 +41,7 @@
 
 
 
-## :rocket: Technologies
+## :rocket: Technologies.
 This project was developed with the following technologies:
 -  [Node.js][nodejs]
 -  [Typescript](https://www.typescriptlang.org/)
