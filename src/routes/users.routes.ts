@@ -3,9 +3,6 @@ import multer from 'multer';
 import uploadConfig from '../config/upload';
 import UserMap from '../mappers/UserMap';
 
-
-
-
 import CreateUserService from '../services/CreateUserService';
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 import updateUserAvatarService from '../services/UpdateUserAvatarService';
@@ -24,9 +21,7 @@ usersRouter.post('/', async (request, response) => {
     email,
     password
   })
-
   const mappedUser = UserMap.toDTO(user);
-
   // delete user.password;
 
   return response.json(mappedUser);
