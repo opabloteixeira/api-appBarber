@@ -10,13 +10,10 @@ interface Request {
   email: string,
   password: string
 }
-
 interface Response {
   user: User;
   token: string;
 }
-
-
 class AuthenticateUserService{
   public async execute({ email, password}: Request): Promise<Response> {
     const usersRepository = getRepository(User);
@@ -33,7 +30,7 @@ class AuthenticateUserService{
       throw new AppError('Incorrect email/password combination.', 401);
     }
 
-    const { secret, expiresIn } = authConfig.jwt;
+    const { secret, expiresIn } = authConfig.jwt; //1ab1d037e7f8340bb95396646d81cb24
 
     const token = sign({}, secret, {
       subject: user.id,
